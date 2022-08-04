@@ -1,0 +1,19 @@
+{
+  "name": "wechaty-chat-history",
+  "version": "0.0.0",
+  "description": "A Wechaty plugin that saves chat history",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/panlina/wechaty-chat-history.git"
+  },
+  "keywords": ["wechaty", "chat history"],
+  "author": "Jack Lu <jacklu@jacklu.me>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/panlina/wechaty-chat-history/issues"
+  },
+  "homepage": "https://github.com/panlina/wechaty-chat-history#readme",
+  "peerDependencies": {
+    "wechaty": "^0.60.10"
+  }
+}
