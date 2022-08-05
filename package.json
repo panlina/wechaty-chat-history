@@ -18,5 +18,10 @@
   },
   "devDependencies": {
     "wechaty": "^0.60.10"
+  },
+  "dependencies": {
+    "sql-template-strings": "^2.2.2",
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.0.11"
   }
 }
