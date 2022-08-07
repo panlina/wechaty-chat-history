@@ -8,5 +8,7 @@ A Wechaty plugin that saves chat history.
 var { Wechaty } = require('wechaty');
 var WechatyChatHistoryPlugin = require('wechaty-chat-history');
 var bot = new Wechaty();
-bot.use(WechatyChatHistoryPlugin());
+bot.use(WechatyChatHistoryPlugin({
+	filter: [{ contact: { name: '小红' } }, { room: { topic: /^都是老师/ } }]
+}));
 ```
