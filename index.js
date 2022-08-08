@@ -26,15 +26,20 @@ module.exports = function WechatyChatHistoryPlugin(config) {
 					)
 				).some(Boolean)
 			)(
-				message.conversation()
+				message.talker().self() ?
+					message.room() || message.to() :
+					message.conversation()
 			))
 				return;
 			if (message.type() != bot.Message.Type.Text) return;
-			var conversation = message.conversation();
+			var conversation =
+				message.talker().self() ?
+					message.room() || message.to() :
+					message.conversation();
 			if (!dbs[conversation.id])
 				dbs[conversation.id] = await Db(`./${conversation.id}.db`);
 			var db = dbs[conversation.id];
-			await db.run(SQL`INSERT INTO message VALUES (${conversation.id}, ${message.text()}, ${message.date()})`);
+			await db.run(SQL`INSERT INTO message VALUES (${message.talker().id}, ${message.text()}, ${message.date()})`);
 		});
 		function sayableQueryFilterFactory(/** @type {SayableQueryFilter} */filter) {
 			return async function (/** @type {Sayable} */sayable) {
