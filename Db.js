@@ -6,7 +6,7 @@ async function Db(filename) {
 	var exists = fs.existsSync(filename);
 	var db = await sqlite.open({ filename: filename, driver: sqlite3.Database });
 	if (!exists)
-		await db.run("CREATE TABLE message (talker TEXT, text TEXT, time DATETIME)");
+		await db.run("CREATE TABLE message (talker TEXT, type INTEGER, text TEXT, time DATETIME)");
 	return db;
 }
 

@@ -31,7 +31,6 @@ module.exports = function WechatyChatHistoryPlugin(config) {
 					message.conversation()
 			))
 				return;
-			if (message.type() != bot.Message.Type.Text) return;
 			var conversation =
 				message.talker().self() ?
 					message.room() || message.to() :
@@ -39,7 +38,7 @@ module.exports = function WechatyChatHistoryPlugin(config) {
 			if (!dbs[conversation.id])
 				dbs[conversation.id] = await Db(`./${conversation.id}.db`);
 			var db = dbs[conversation.id];
-			await db.run(SQL`INSERT INTO message VALUES (${message.talker().id}, ${message.text()}, ${message.date()})`);
+			await db.run(SQL`INSERT INTO message VALUES (${message.talker().id}, ${message.type()}, ${message.text()}, ${message.date()})`);
 		});
 		function sayableQueryFilterFactory(/** @type {SayableQueryFilter} */filter) {
 			return async function (/** @type {Sayable} */sayable) {
