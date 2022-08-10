@@ -36,7 +36,7 @@ module.exports = function WechatyChatHistoryPlugin(config) {
 					message.room() || message.to() :
 					message.conversation();
 			if (!dbs[conversation.id])
-				dbs[conversation.id] = await Db(`./${conversation.id}.db`);
+				dbs[conversation.id] = await Db(`./wechaty-chat-history/${conversation.id}.db`);
 			var db = dbs[conversation.id];
 			await db.run(SQL`INSERT INTO message VALUES (${message.talker().id}, ${message.type()}, ${message.text()}, ${message.date()})`);
 		});
