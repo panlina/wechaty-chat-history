@@ -1,3 +1,4 @@
+var path = require('path');
 /** @typedef { import("wechaty").Wechaty } Wechaty */
 /** @typedef { import("wechaty").Message } Message */
 /** @typedef { import("wechaty").Sayable } Sayable */
@@ -11,6 +12,7 @@ var Db = require('./Db');
 /**
  * @param {Object} config
  * @param {SayableQueryFilter[]} [config.filter] the filter of contacts and rooms to enable this plugin
+ * @param {string} [config.dbDirectory] the directory to put dbs
  */
 module.exports = function WechatyChatHistoryPlugin(config) {
 	return function (/** @type {Wechaty} */bot) {
@@ -36,7 +38,7 @@ module.exports = function WechatyChatHistoryPlugin(config) {
 					message.room() || message.to() :
 					message.conversation();
 			if (!dbs[conversation.id])
-				dbs[conversation.id] = await Db(`./wechaty-chat-history/${conversation.id}.db`);
+				dbs[conversation.id] = await Db(path.join(config.dbDirectory || './wechaty-chat-history', `${conversation.id}.db`));
 			var db = dbs[conversation.id];
 			await db.run(SQL`INSERT INTO message VALUES (${message.talker().id}, ${message.type()}, ${message.text()}, ${message.date()})`);
 		});
