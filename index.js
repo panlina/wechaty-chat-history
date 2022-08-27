@@ -1,3 +1,4 @@
+var fs = require('fs');
 var path = require('path');
 /** @typedef { import("wechaty").Wechaty } Wechaty */
 /** @typedef { import("wechaty").Message } Message */
@@ -37,8 +38,12 @@ module.exports = function WechatyChatHistoryPlugin(config) {
 				message.talker().self() ?
 					message.room() || message.to() :
 					message.conversation();
-			if (!dbs[conversation.id])
-				dbs[conversation.id] = await Db(path.join(config.dbDirectory || './wechaty-chat-history', `${conversation.id}.db`));
+			if (!dbs[conversation.id]) {
+				var dbDirectory = config.dbDirectory || './wechaty-chat-history';
+				if (!fs.existsSync(dbDirectory))
+					fs.mkdirSync(dbDirectory);
+				dbs[conversation.id] = await Db(path.join(dbDirectory, `${conversation.id}.db`));
+			}
 			var db = dbs[conversation.id];
 			await db.run(SQL`INSERT INTO message VALUES (${message.talker().id}, ${message.type()}, ${message.text()}, ${message.date()})`);
 		});
